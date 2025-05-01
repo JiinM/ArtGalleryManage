@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Lora&display=swap');
+
+body {
+    display:grid;
+    justify-content:center;
+    align-content:center;
+    height:100vh;
+    font:5vh Lora;
+    margin: 0;
+    /*background-color: #111;*/
+    color: white;
+    font-family: 'Lora', serif;
+}
+
+canvas {
+    position: fixed;
+    z-index: -1;
+}
+
+/* ✅ CENTER EVERYTHING */
+#main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* ✅ FIX TITLE SIZE */
+#main-content h1 {
+    font-size: 4vh;        /* Adjusted size */
+    margin-bottom: 40px;
+}
+
+#enter-link {
+    color:#222a;
+    text-decoration: none;
+    transition:all 0.3s;
+    &:hover {
+        color:#2223;
+        text-shadow:0 0 100px #333;
+    }
+    font-size: 2vh;
+}

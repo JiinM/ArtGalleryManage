@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GALLERY ADMIN DASHBOARD</title>
+    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+    <style>
+        .column-toggle-controls {
+            text-align: center;
+            margin: 30px auto;
+        }
+
+        .column-toggle-controls label {
+            margin-right: 14px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 🖼️ Page Title -->
+<div class="dashboard-title-wrapper">
+    <h1 class="dashboard-title">GALLERY ADMIN DASHBOARD</h1>
+</div>
+
+<!-- 🎨 Background Gallery Image -->
+<div class="gallery-bg">
+    <img src="{% static 'img/AI_generated_image.png' %}" alt="Gallery Image">
+</div>
+
+<!-- ✅ Column Toggle Checkboxes (Now Below Image) -->
+<div class="column-toggle-controls">
+    <label><input type="checkbox" checked onchange="toggleColumn('title_col')"> Title</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('artist_col')"> Artist</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('date_col')"> Date</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('description_col')"> Description</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('capacity_col')"> Capacity</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('visitor_id_col')"> Visitor ID</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('visitor_name_col')"> Visitor Name</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('visitor_email_col')"> Visitor Email</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('reservation_id_col')"> Reservation ID</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('status_col')"> Reservation Status</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('reserve_date_col')"> Reservation Date</label>
+    <label><input type="checkbox" checked onchange="toggleColumn('actions_col')"> Actions</label>
+</div>
+
+<!-- 📋 Exhibit Table -->
+<table>
+    <thead>
+        <tr>
+            <th class="title_col">TITLE</th>
+            <th class="artist_col">ARTIST</th>
+            <th class="date_col">DATE</th>
+            <th class="description_col">DESCRIPTION</th>
+            <th class="capacity_col">CAPACITY</th>
+            <th class="visitor_id_col">VISITOR ID</th>
+            <th class="visitor_name_col">VISITOR NAME</th>
+            <th class="visitor_email_col">VISITOR EMAIL</th>
+            <th class="reservation_id_col">RESERVATION ID</th>
+            <th class="status_col">RESERVATION STATUS</th>
+            <th class="reserve_date_col">RESERVATION DATE</th>
+            <th class="actions_col">ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for exhibit in exhibits %}
+            {% with exhibit.reservations.all as reservations %}
+                {% if reservations|length > 0 %}
+                    {% for reservation in reservations %}
+                        <tr>
+                            <td class="title_col">{{ exhibit.title }}</td>
+                            <td class="artist_col">{{ exhibit.artist.name }}</td>
+                            <td class="date_col">{{ exhibit.date }}</td>
+                            <td class="description_col">{{ exhibit.description }}</td>
+                            <td class="capacity_col">{{ exhibit.capacity }}</td>
+                            <td class="visitor_id_col">{{ reservation.visitor.id }}</td>
+                            <td class="visitor_name_col">{{ reservation.visitor.name }}</td>
+                            <td class="visitor_email_col">{{ reservation.visitor.email }}</td>
+                            <td class="reservation_id_col">{{ reservation.id }}</td>
+                            <td class="status_col">{{ reservation.status }}</td>
+                            <td class="reserve_date_col">{{ reservation.reserve_date }}</td>
+                            <td class="actions_col action-icons">
+                                <a href="{% url 'exhibit_update' exhibit.pk %}">
+                                    <img src="{% static 'img/Icon.png' %}" alt="Edit" />
+                                </a>
+                                <a href="{% url 'exhibit_delete' exhibit.pk %}" onclick="return confirm('Are you sure?');">
+                                    <img src="{% static 'img/Icon-1.png' %}" alt="Delete" />
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td class="title_col">{{ exhibit.title }}</td>
+                        <td class="artist_col">{{ exhibit.artist.name }}</td>
+                        <td class="date_col">{{ exhibit.date }}</td>
+                        <td class="description_col">{{ exhibit.description }}</td>
+                        <td class="capacity_col">{{ exhibit.capacity }}</td>
+                        <td class="visitor_id_col">---</td>
+                        <td class="visitor_name_col">---</td>
+                        <td class="visitor_email_col">---</td>
+                        <td class="reservation_id_col">---</td>
+                        <td class="status_col">---</td>
+                        <td class="reserve_date_col">---</td>
+                        <td class="actions_col action-icons">
+                            <a href="{% url 'exhibit_update' exhibit.pk %}">
+                                <img src="{% static 'img/Icon.png' %}" alt="Edit" />
+                            </a>
+                            <a href="{% url 'exhibit_delete' exhibit.pk %}" onclick="return confirm('Are you sure?');">
+                                <img src="{% static 'img/Icon-1.png' %}" alt="Delete" />
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endwith %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- ➕ Add Exhibit Button -->
+<div class="add-exhibit-wrapper">
+    <a href="{% url 'exhibit_create' %}" class="add-exhibit">ADD EXHIBIT</a>
+</div>
+
+<!-- 🔘 JavaScript to toggle columns -->
+<script>
+    function toggleColumn(className) {
+        const cells = document.querySelectorAll(`.${className}`);
+        cells.forEach(cell => {
+            cell.style.display = (cell.style.display === 'none') ? '' : 'none';
+        });
+    }
+</script>
+
+{#<script src="{% static 'js/list.js' %}"></script>#}
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Art Gallery Manager</title>
+    <link rel="stylesheet" href="{% static 'css/background.css' %}">
+</head>
+<body>
+
+  <canvas></canvas>
+
+  <div id="main-content">
+      <h1>🎨 Art Gallery Manager 🎨</h1>
+      <a id="enter-link" href="http://127.0.0.1:8000/exhibits/">Enter Gallery</a>
+  </div>
+
+  <script src="{% static 'js/background.js' %}"></script>
+
+</body>
+</html>

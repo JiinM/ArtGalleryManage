@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Exhibit</title>
+    <link rel="stylesheet" href="{% static 'css/new.css' %}">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 🧾 Page Header -->
+    <div class="dashboard-title-wrapper">
+        <h1 class="dashboard-title">ADD NEW EXHIBIT</h1>
+    </div>
+
+    <!-- 📝 Exhibit Form -->
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Artist Selection -->
+            <div class="form-row-two-col">
+                <div class="form-group">
+                    <label for="artist_select">Artist:</label>
+                    <select name="artist" id="artist_select" required>
+                        <option value="" {% if not form.instance.artist %}selected{% endif %}>---</option>
+                        {% for artist in form.fields.artist.queryset %}
+                            <option value="{{ artist.id }}" {% if form.instance.artist and form.instance.artist.id == artist.id %}selected{% endif %}>
+                                {{ artist.name }}
+                            </option>
+                        {% endfor %}
+                        <option value="other">Other</option>
+                    </select>
+
+                </div>
+            </div>
+
+            <!-- Hidden fields for 'Other' -->
+            <div id="other_artist_fields" class="form-row-two-col hidden">
+                <div class="form-group">
+                    <label for="other_artist_name">Name:</label>
+                    <input type="text" name="other_artist_name" id="other_artist_name">
+                </div>
+                <div class="form-group">
+                    <label for="other_country">Country:</label>
+                    <input type="text" name="other_artist_country" id="other_country">
+                </div>
+            </div>
+
+            <!-- Remaining Fields -->
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Title:</label>
+                {{ form.title }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.date.id_for_label }}">Date:</label>
+                {{ form.date }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Description:</label>
+                {{ form.description }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.capacity.id_for_label }}">Capacity:</label>
+                {{ form.capacity }}
+            </div>
+
+            <div class="save-btn-wrapper">
+                <button type="submit" class="save-btn">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="back-link-wrapper">
+        <a href="{% url 'exhibit_list' %}" class="back-link">← Back to Exhibits</a>
+    </div>
+
+    <script>
+        function toggleOtherArtistFields() {
+            const select = document.getElementById("artist_select");
+            const otherFields = document.getElementById("other_artist_fields");
+
+            if (select.value === "other") {
+                otherFields.classList.remove("hidden");
+            } else {
+                otherFields.classList.add("hidden");
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const select = document.getElementById("artist_select");
+            toggleOtherArtistFields();  // run once on load
+            select.addEventListener("change", toggleOtherArtistFields);  // run on change
+        });
+    </script>
+
+</body>
+</html>

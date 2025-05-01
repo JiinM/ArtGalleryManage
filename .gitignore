@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Django
+db.sqlite3
+
+# VS Code and PyCharm
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Static/media files (optional if not needed)
+staticfiles/
+media/
