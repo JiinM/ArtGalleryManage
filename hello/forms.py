@@ -5,3 +5,6 @@ class ExhibitForm(forms.ModelForm):
     class Meta:
         model = Exhibits
         fields = ['artist', 'title', 'date', 'description', 'capacity']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+        }
