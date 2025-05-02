@@ -40,3 +40,22 @@ Indexes were manually defined to optimize JOIN queries for reporting on exhibits
    ```bash
    git clone https://github.com/JiinM/ArtGalleryManage.git
    cd ArtGalleryManage
+2. Create and activate a virtual environment
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+3. Install dependencies
+   ```bash
+   pip install -r requirements.txt
+4. Apply migrations
+   ```bash
+   python manage.py migrate
+5. Collect static files
+   ```bash
+   python manage.py collectstatic
+6. Run the development server
+   ```bash
+   python manage.py runserver
+7. Open your browser and go to http://127.0.0.1:8000
+   ```bash
+   Open your browser and go to http://127.0.0.1:8000
